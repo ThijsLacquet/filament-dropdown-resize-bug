@@ -1,3 +1,23 @@
+# Reproduction: dropdown closes on window resize (filters dropdown unusable on mobile)
+
+Opening a Filament dropdown from its trigger makes it remember the `.fi-dropdown-trigger` wrapper
+as its trigger, so the next window `resize` closes it. On a phone the on-screen keyboard resizes the
+window, so tapping the search field of a filter inside the table's Filters dropdown closes the
+dropdown (and the keyboard) straight away.
+
+## Steps
+
+1. `composer setup && php artisan serve`, log in at <http://127.0.0.1:8000/admin> with `test@example.com` / `password`.
+2. Open **Users** and click the Filters (funnel) button.
+3. Resize the browser window (or open DevTools docked at the bottom): the Filters dropdown closes.
+4. On a phone (or Chrome DevTools device mode with a viewport height change): tap the **Users** filter's
+   search field. The keyboard opens, and the Filters dropdown and the keyboard close at once.
+
+The only code added on top of the template is `app/Filament/Resources/Users` (one searchable
+`SelectFilter`) and 20 seeded users in `DatabaseSeeder`.
+
+---
+
 # Filament issue reproduction template
 
 A minimal Laravel + Filament application for reproducing bugs you would like to file at [`filamentphp/filament`](https://github.com/filamentphp/filament/issues).
